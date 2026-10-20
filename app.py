@@ -1,7 +1,11 @@
-"""Ridgeline approval desk (TechHub challenge 410).
+"""Ridgeline approval desk (TechHub challenge 410, solution).
 
 Reads Ridgeline's pending vendor invoices from the TechHub API sandbox and approves them or puts them on hold.
-It isn't safe to run yet: the API key belongs in Streamlit secrets, not in the code. README.md says how to fix that."""
+The API key comes from Streamlit secrets, never from the code:
+  - on your computer or in a codespace: .streamlit/secrets.toml (listed in .gitignore, so it is never committed)
+  - on Streamlit Community Cloud: the app's Settings > Secrets
+Both hold one line:  TECHHUB_API_KEY = "thk_..."
+"""
 import requests
 import streamlit as st
 
@@ -10,9 +14,12 @@ API = "https://techhub.byuaccounting.net/api/v1"
 st.set_page_config(page_title="Ridgeline approval desk", layout="wide")
 st.title("Ridgeline approval desk")
 
-# TODO: this repository is public, so never paste your real key here. Put it in .streamlit/secrets.toml
-# and read it with st.secrets["TECHHUB_API_KEY"] (README.md, step 3).
-API_KEY = "thk_PASTE_YOUR_KEY_HERE"
+try:
+    API_KEY = st.secrets["TECHHUB_API_KEY"]
+except Exception:   # no secrets file, or no TECHHUB_API_KEY in it
+    st.error("No API key found. Add TECHHUB_API_KEY to .streamlit/secrets.toml (on your computer) "
+             "or to the app's Settings > Secrets (on Streamlit Community Cloud).")
+    st.stop()
 
 session = requests.Session()
 session.headers.update({"X-API-Key": API_KEY, "User-Agent": "Ridgeline-approval-desk/1.0"})
