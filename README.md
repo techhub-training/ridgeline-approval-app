@@ -14,20 +14,11 @@ Click **Use this template › Create a new repository**. Keep the name `ridgelin
 
 ## Open it
 
-**In your browser (nothing to install):** on your copy of this repository, click **Code › Codespaces › Create codespace on main**.
-The app installs and starts by itself, and a preview opens in a few minutes. Stop the codespace when you're done
-(github.com/codespaces › ••• › Stop) so it doesn't use your free hours.
+On your copy of this repository, click **Code › Codespaces › Create codespace on main**. Everything runs in the
+codespace, in your browser: Python, the packages and Claude Code are already installed, the app starts by itself,
+and a preview opens in a few minutes. Type `claude` in the terminal to work with Claude Code (sign in the first time).
+Stop the codespace when you're done (github.com/codespaces › ••• › Stop) so it doesn't use your free hours.
 
-**On your computer:** you need Python 3.10 or newer and Git.
-
-```
-git clone https://github.com/<you>/ridgeline-approval-app.git
-cd ridgeline-approval-app
-python -m venv .venv
-source .venv/bin/activate          # Windows PowerShell: .venv\Scripts\Activate.ps1
-pip install -r requirements.txt
-streamlit run app.py
-```
 ## Your API key goes in secrets, never in the code
 
 This repository is public: anything you commit, anyone can read, forever (deleting it later doesn't remove it from
@@ -42,6 +33,13 @@ the history). Streamlit keeps keys in a separate file that you never commit:
 
 3. Add the line `.streamlit/secrets.toml` to `.gitignore`, so Git never picks the file up. `git status` should not list it.
 
+## Where your data goes (Level 2, Processing on a server)
+
+| Question | Answer |
+|---|---|
+| Who runs the code? | Streamlit Community Cloud runs `app.py`. |
+| Where does the data go? | The app reads invoices from the TechHub API sandbox and places holds through it. The holds are stored by the sandbox (its Storage), not by the app, which keeps nothing. |
+| Who can reach it? | Anyone with the link acts with your key, which lives only in Streamlit Secrets. Get a new key if it ever shows up in your repository. |
 
 ## Your task
 
