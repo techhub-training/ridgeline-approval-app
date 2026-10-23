@@ -22,3 +22,12 @@ All five go on hold. To start over in the sandbox, `POST /reset` with your key.
 
 Already committed a key? Deleting it in a new commit isn't enough: it is still in the history. Revoke it (for the
 TechHub sandbox, get a new key) and see TechHub challenge 395, *Find a leaked key in the history*.
+
+## Where your data goes (Level 2, Processing on a server)
+
+| Question | Answer |
+|---|---|
+| Who runs the code? | Streamlit Community Cloud runs `app.py`. |
+| Where does the data go? | The app reads invoices from the TechHub API sandbox and places holds through it. The holds are stored by the sandbox (its Storage), not by the app, which keeps nothing. |
+| Who can reach it? | Anyone with the link acts with your key, which lives only in Streamlit Secrets. Get a new key if it ever shows up in your repository. |
+
